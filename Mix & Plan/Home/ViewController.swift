@@ -12,7 +12,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet weak var homeSearchBar: UISearchBar!
     @IBOutlet weak var CategoryTblView: UITableView!
+    lazy var tapRecognizer: UITapGestureRecognizer = {
+        var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
+        return recognizer
+    }()
     
+    var searchResults: [RecipeModel] = []
+    let queryService = QueryService()
     
     var row: Int?
     var cuisine = ["pasar", "Western Food", "Indonesian Food", "Japanese Food"]
@@ -25,6 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //queryService.getRecipe();
         
         CategoryTblView.delegate = self
         CategoryTblView.dataSource = self
