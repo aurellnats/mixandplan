@@ -12,8 +12,8 @@ import CoreData
 class MenuPlanTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //menus nya narik dari coredata recipePlan
-    var recipeP : [RecipePlan] = []
     var menus = ["Nasi Goreng Ayam", "Penne Carbonara", "Miso Soup"]
+    var recipe: [Recipe] = []
 
     @IBOutlet weak var dayLbl: UILabel!
     @IBOutlet weak var MenuPlanCollView: UICollectionView!
@@ -32,7 +32,7 @@ class MenuPlanTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recipeP.count
+        return recipe.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

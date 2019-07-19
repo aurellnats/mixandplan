@@ -23,10 +23,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //let cuisineCell = CuisineTableViewCell.self
     
-    var row: Int?, rows: Int?
-    var cuisine = ["Recomendation", "Indonesia", "Western", "Jepang","Chinese","Thai"]
+    var row: Int = 0
+    
     //TODO
     //bikin logo
+    var cuisine = ["Recommendation", "Indonesian", "Western", "Japanese", "Chinese", "Thai"]
     var cuisineLogo = ["pasar", "western", "western", "western","western", "western"]
     
     @IBAction func menuPlanBtn(_ sender: Any) {
@@ -39,15 +40,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         //belum di kategoriin sesuai cuisine
         
+        //loadRecipe(category: cuisine[row])
+        
         CategoryTblView.delegate = self
         CategoryTblView.dataSource = self
         
     }
     
-    func loadRecipe(){
+    func loadRecipe(category: String){
         print(#function)
         // Do any additional setup after loading the view.
-        queryService.getRecipe(searchTerm: "all"){ results, errorMessage in
+        queryService.getRecipe(searchTerm: category){ results, errorMessage in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if let results = results {
                 //print(#function)
@@ -79,9 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     //load datanya kemari
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        rows = indexPath.row
-        //TODO
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        //TODO
         //asumsu bahwa yg nomor record yang nomor 1 adalah selalu rekomendasi
         if indexPath.row == 0 {
             let recommenCell = tableView.dequeueReusableCell(withIdentifier: "recommendCell") as! RecommendTableViewCell
@@ -100,7 +101,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.category = cuisine[indexPath.row]
             cell.cellProtocol = self
             
-            cell.searchResults = searchResults
             //            print("START searchResults disini")
             //            print(self.searchResults)
             //            print("END searchResults disini")
@@ -127,7 +127,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCuisineAllMenu"{
             let dest = segue.destination as! AllMenuViewController
-            dest.navigationItem.title = "\(cuisine[row!])"
+            dest.navigationItem.title = "\(cuisine[row])"
             
         }
         if segue.identifier == "showRecipeFromHome"{

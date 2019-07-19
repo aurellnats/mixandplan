@@ -29,12 +29,25 @@ class QueryService {
     //func getRecipe(completion: @escaping QueryResult)  {
     func getRecipe(searchTerm: String, completion: @escaping QueryResult)  {
         //0
-        //print("getRecipe")
+        var code: String = "WPEgKA3e"
+        switch searchTerm {
+        case "Indonesian":
+            code = "AJnxXNQU"
+        case "Western":
+            code = "aE9Vskqz"
+        case "Jepang":
+            code = "rmHLjUcF"
+        default:
+            code = "RrbWadFU"
+        }
+        
+        let pasteBinUrl = "https://pastebin.com/raw/\(code)"
+        
         // 1
         dataTask?.cancel()
         //2
         //string url data https://itunes.apple.com/search
-        if var urlComponents = URLComponents(string: "https://pastebin.com/raw/RrbWadFU") {
+        if var urlComponents = URLComponents(string: pasteBinUrl) {
             urlComponents.query = "tag=\(searchTerm)&entity=song&term=tes"
             // 3
             guard let url = urlComponents.url else { return }
@@ -87,12 +100,15 @@ class QueryService {
                 let imageURL = URL(string: recipeDictionary["url"] as! String),
                 let tag = recipeDictionary["tag"] as? String,
                 let contributor = recipeDictionary["contributor"] as? String,
-                let instructions = recipeDictionary["instruction"] as? [String] {
+                let instructions = recipeDictionary["instruction"] as? [String]
+            {
+
                 //print(id,imageURL,instructions)
                 recipes.append(RecipeModel(id: id  , name: name , contributor: contributor , imageURL: imageURL, tag: tag, instruction: instructions ))
                 index += 1
                 //print(recipes.count)
                 //print(id)
+                
             } else {
                 errorMessage += "Problem parsing recipeDictionary\n"
             }
